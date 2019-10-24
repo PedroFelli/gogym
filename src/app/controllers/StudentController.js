@@ -31,7 +31,8 @@ class StudentController {
   }
 
   async update(req, res) {
-    console.log(req.body);
+    // Fazer checkagem se aluno existe e validar os dados;
+
     const student = await Student.findByPk(req.body.id);
 
     const { id, name, email, idade, altura, peso } = await student.update(
