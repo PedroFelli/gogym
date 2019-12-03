@@ -5,7 +5,6 @@ class Matricula extends Model {
     super.init(
       {
         student_id: Sequelize.INTEGER,
-        plan_id: Sequelize.INTEGER,
         start_date: Sequelize.DATE,
         end_date: Sequelize.DATE,
         price: Sequelize.FLOAT,
@@ -16,8 +15,11 @@ class Matricula extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Student, { foreignKey: 'student_id', as: 'student' });
-    this.belongsTo(models.Plano, { foreignKey: 'plan_id', as: 'plano' });
+    this.belongsTo(models.Student, {
+      foreignKey: 'student_id',
+      as: 'students',
+    });
+    this.belongsTo(models.Plano, { foreignKey: 'plan_id', as: 'planos' });
   }
 }
 
