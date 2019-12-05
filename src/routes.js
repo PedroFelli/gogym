@@ -26,8 +26,7 @@ routes.put('/plano/:id', PlanoController.update);
 routes.post('/matricula', MatriculaController.store);
 routes.get('/matricula', MatriculaController.index);
 routes.put('/matricula/:id', MatriculaController.update);
-/** routes.delete('/matricula/:id', MatriculaController.delete);
- * */
+routes.delete('/matricula/:id', MatriculaController.delete);
 
 routes.post('/teste', (req, res) => {
   return res.send(req.body);

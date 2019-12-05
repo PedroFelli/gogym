@@ -93,6 +93,22 @@ class MatriculaController {
 
     return res.json(matriculas);
   }
+
+  async delete(req, res) {
+    const matricula = await Matricula.findByPk(req.params.id);
+
+    if (!matricula) {
+      return res.status(400).json({ error: 'Matricula not found!' });
+    }
+
+    await Matricula.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    return res.json('Matricula deletada!');
+  }
 }
 
 export default new MatriculaController();
