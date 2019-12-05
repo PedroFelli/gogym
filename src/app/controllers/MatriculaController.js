@@ -1,4 +1,4 @@
-import * as Yup from 'yup';
+// import * as Yup from 'yup';
 import { addMonths, parseISO, format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import Matricula from '../models/Matricula';
@@ -41,10 +41,39 @@ class MatriculaController {
       },
     });
 
-    console.log(start_date);
-    console.log(end_date);
+    const matricula = await Matricula.create({
+      ...req.body,
+      end_date,
+      price,
+    });
 
-    return res.json(price);
+    return res.json(matricula);
+  }
+
+  async update(req, res) {
+    const matricula = await Matricula.findByPk(req.params.id);
+
+    if (!matricula) {
+      return res.status(401).json({ error: 'Matricula not found' });
+    }
+
+    const isPlano = await Plano.findByPk(matricula.plan_id);
+
+    if (!isPlano) {
+      return res.status(401).json({ error: 'Plano not found' });
+    }
+
+    const end_date = addMonths(parseISO(req.body.start_date), isPlano.duration);
+
+    const price = isPlano.price * isPlano.duration;
+
+    const matriculaUp = await matricula.update({
+      ...req.body,
+      end_date,
+      price,
+    });
+
+    return res.json({ matriculaUp });
   }
 
   async index(req, res) {
