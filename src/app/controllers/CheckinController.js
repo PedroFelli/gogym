@@ -1,7 +1,7 @@
 import { subDays } from 'date-fns';
 import { Op } from 'sequelize';
 
-import Checkin from '../models/Checkins';
+import Checkin from '../models/Checkin';
 import Student from '../models/Student';
 
 class CheckinController {
