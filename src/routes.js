@@ -6,6 +6,7 @@ import PlanoController from './app/controllers/PlanoController';
 import MatriculaController from './app/controllers/MatriculaController';
 import CheckinController from './app/controllers/CheckinController';
 import HelpController from './app/controllers/HelpController';
+import AnswerController from './app/controllers/AnswerController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -35,6 +36,9 @@ routes.post('/matricula', MatriculaController.store);
 routes.get('/matricula', MatriculaController.index);
 routes.put('/matricula/:id', MatriculaController.update);
 routes.delete('/matricula/:id', MatriculaController.delete);
+
+routes.post('/students/:id/answer', AnswerController.store);
+routes.get('/students/:id/answer', AnswerController.index);
 
 routes.post('/teste', (req, res) => {
   return res.send(req.body);
