@@ -1,6 +1,10 @@
 import * as Yup from 'yup';
+import { format } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 import Student from '../models/Student';
 import Help from '../models/HelpOrder';
+
+import Mail from '../../lib/Mail';
 
 class HelpAnswerController {
   async store(req, res) {
@@ -18,10 +22,26 @@ class HelpAnswerController {
       return res.status(401).json({ error: 'Help order not found!' });
     }
 
-    const { question, answer } = await help.update({
+    const student = await Student.findByPk(help.student_id);
+
+    const { question, answer, answer_at } = await help.update({
       ...help,
       answer: req.body.answer,
       answer_at: new Date(),
+    });
+
+    await Mail.sendMail({
+      to: `${student.name} <${student.email}>`,
+      subject: 'Pedido de auxílio',
+      template: 'answer',
+      context: {
+        name: student.name,
+        question,
+        answer,
+        date: format(answer_at, "dd 'de' MMMM", {
+          locale: pt,
+        }),
+      },
     });
 
     return res.json({ question, answer });
